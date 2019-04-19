@@ -1,0 +1,5 @@
+name: dend
+channels:
+  - defaults
+prefix: /home/f.silvestre/anaconda3/envs/dend
+
