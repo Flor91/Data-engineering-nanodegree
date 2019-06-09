@@ -4,7 +4,6 @@ from sql_queries import select_number_rows_queries
 
 
 def get_results(cur, conn):
-    print('Inserting data from json files stored in S3 buckets into staging tables')
     for query in select_number_rows_queries:
         print('Running ' + query)
         cur.execute(query)
