@@ -1,6 +1,8 @@
 # Data-engineering-nanodegree
 Projects done in the [Data Engineering Nanodegree by Udacity.com](https://www.udacity.com/course/data-engineer-nanodegree--nd027)
 
+![Icon](data-engineering.jpg)
+
 ## Course 1: Data Modeling
 ### Introduction to Data Modeling
 ➔ Understand the purpose of data modeling
