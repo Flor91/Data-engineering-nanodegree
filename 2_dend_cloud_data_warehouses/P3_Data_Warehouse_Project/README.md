@@ -1,7 +1,5 @@
 # Project Datawarehouse
 
-The README file includes a summary of the project, how to run the Python scripts, and an explanation of the files in the repository. Comments are used effectively and each function has a docstring.
-
 ## Project description
 
 Sparkify is a music streaming startup with a growing user base and song database.
