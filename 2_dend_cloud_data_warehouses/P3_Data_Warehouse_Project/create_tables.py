@@ -4,6 +4,9 @@ from sql_queries import create_table_queries, drop_table_queries
 
 
 def drop_tables(cur, conn):
+    """
+    Delete pre-existing tables to be able to create them from scratch
+    """
     print('Droping tables')
     for query in drop_table_queries:
         cur.execute(query)
@@ -11,6 +14,9 @@ def drop_tables(cur, conn):
 
 
 def create_tables(cur, conn):
+    """
+    Create staging and dimensional tables declared on sql_queries script
+    """
     for query in create_table_queries:
         print('Running ' + query + ' ')
         cur.execute(query)
@@ -18,6 +24,9 @@ def create_tables(cur, conn):
 
 
 def main():
+    """
+    Set up the database tables, create needed tables with the appropriate columns and constricts
+    """
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
 

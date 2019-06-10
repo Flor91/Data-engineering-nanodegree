@@ -23,18 +23,18 @@ staging_events_table_create= ("""
         auth                VARCHAR,
         firstName           VARCHAR,
         gender              VARCHAR,
-        itemInSession       INTEGER         NOT NULL,
+        itemInSession       INTEGER,
         lastName            VARCHAR,
         length              FLOAT,
-        level               VARCHAR         NOT NULL,
+        level               VARCHAR,
         location            VARCHAR,
-        method              VARCHAR         NOT NULL,
-        page                VARCHAR         NOT NULL,
+        method              VARCHAR,
+        page                VARCHAR,
         registration        FLOAT,
-        sessionId           INTEGER         NOT NULL,
+        sessionId           INTEGER,
         song                VARCHAR,
-        status              INTEGER         NOT NULL,
-        ts                  TIMESTAMP       NOT NULL,
+        status              INTEGER,
+        ts                  TIMESTAMP,
         userAgent           VARCHAR,
         userId              INTEGER 
     )
@@ -42,14 +42,14 @@ staging_events_table_create= ("""
 
 staging_songs_table_create = ("""
     CREATE TABLE staging_songs(
-        num_songs           INTEGER         NOT NULL,
+        num_songs           INTEGER,
         artist_id           VARCHAR,
         artist_latitude     FLOAT,
         artist_longitude    FLOAT,
         artist_location     VARCHAR,
         artist_name         VARCHAR,
-        song_id             VARCHAR         NOT NULL,
-        title               VARCHAR         NOT NULL,
+        song_id             VARCHAR,
+        title               VARCHAR,
         duration            FLOAT,
         year                INTEGER
     )
@@ -57,21 +57,21 @@ staging_songs_table_create = ("""
 
 songplay_table_create = ("""
     CREATE TABLE songplays(
-        songplay_id         INTEGER         IDENTITY(0,1)   NOT NULL,
+        songplay_id         INTEGER         IDENTITY(0,1)   PRIMARY KEY,
         start_time          TIMESTAMP       NOT NULL SORTKEY DISTKEY,
         user_id             INTEGER         NOT NULL,
-        level               VARCHAR         NOT NULL,
+        level               VARCHAR,
         song_id             VARCHAR         NOT NULL,
         artist_id           VARCHAR         NOT NULL,
-        session_id          INTEGER         NOT NULL,
-        location            VARCHAR         NOT NULL,
-        user_agent          VARCHAR         NOT NULL
+        session_id          INTEGER,
+        location            VARCHAR,
+        user_agent          VARCHAR
     )
 """)
 
 user_table_create = ("""
     CREATE TABLE users(
-        user_id             INTEGER         NOT NULL SORTKEY,
+        user_id             INTEGER         NOT NULL SORTKEY PRIMARY KEY,
         first_name          VARCHAR         NOT NULL,
         last_name           VARCHAR         NOT NULL,
         gender              VARCHAR         NOT NULL,
@@ -81,7 +81,7 @@ user_table_create = ("""
 
 song_table_create = ("""
     CREATE TABLE songs(
-        song_id             VARCHAR         NOT NULL SORTKEY,
+        song_id             VARCHAR         NOT NULL SORTKEY PRIMARY KEY,
         title               VARCHAR         NOT NULL,
         artist_id           VARCHAR         NOT NULL,
         year                INTEGER         NOT NULL,
@@ -91,7 +91,7 @@ song_table_create = ("""
 
 artist_table_create = ("""
     CREATE TABLE artists(
-        artist_id           VARCHAR         NOT NULL SORTKEY,
+        artist_id           VARCHAR         NOT NULL SORTKEY PRIMARY KEY,
         name                VARCHAR         NOT NULL,
         location            VARCHAR,
         latitude            FLOAT,
@@ -101,7 +101,7 @@ artist_table_create = ("""
 
 time_table_create = ("""
     CREATE TABLE time(
-        start_time          TIMESTAMP       NOT NULL DISTKEY SORTKEY,
+        start_time          TIMESTAMP       NOT NULL DISTKEY SORTKEY PRIMARY KEY,
         hour                INTEGER         NOT NULL,
         day                 INTEGER         NOT NULL,
         week                INTEGER         NOT NULL,
@@ -164,15 +164,14 @@ artist_table_insert = ("""
 
 time_table_insert = ("""
     INSERT INTO time (start_time, hour, day, week, month, year, weekday)
-    SELECT  DISTINCT(ts)                AS start_time,
-            EXTRACT(hour FROM ts)       AS hour,
-            EXTRACT(day FROM ts)        AS day,
-            EXTRACT(week FROM ts)       AS week,
-            EXTRACT(month FROM ts)      AS month,
-            EXTRACT(year FROM ts)       AS year,
-            EXTRACT(dayofweek FROM ts)  as weekday
-    FROM staging_events
-    WHERE page  ==  'NextSong';
+    SELECT  DISTINCT(start_time)                AS start_time,
+            EXTRACT(hour FROM start_time)       AS hour,
+            EXTRACT(day FROM start_time)        AS day,
+            EXTRACT(week FROM start_time)       AS week,
+            EXTRACT(month FROM start_time)      AS month,
+            EXTRACT(year FROM start_time)       AS year,
+            EXTRACT(dayofweek FROM start_time)  as weekday
+    FROM songplays;
 """)
 
 
@@ -188,6 +187,7 @@ songplay_table_insert = ("""
             e.userAgent     AS user_agent
     FROM staging_events e
     JOIN staging_songs  s   ON (e.song = s.title AND e.artist = s.artist_name)
+    AND e.page  ==  'NextSong'
 """)
 
 # GET NUMBER OF ROWS IN EACH TABLE
