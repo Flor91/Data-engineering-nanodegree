@@ -2,7 +2,7 @@
 # ms-python.python added
 import os
 try:
-	os.chdir(os.path.join(os.getcwd(), '2_dend_cloud_data_warehouses/exercises'))
+	os.chdir(os.path.join(os.getcwd(), '2_dend_cloud_data_warehouses/notebooks'))
 	print(os.getcwd())
 except:
 	pass

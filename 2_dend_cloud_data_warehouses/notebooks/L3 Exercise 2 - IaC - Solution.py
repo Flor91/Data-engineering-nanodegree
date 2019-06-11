@@ -2,7 +2,7 @@
 # ms-python.python added
 import os
 try:
-	os.chdir(os.path.join(os.getcwd(), '2_dend_cloud_data_warehouses/exercises'))
+	os.chdir(os.path.join(os.getcwd(), '2_dend_cloud_data_warehouses/notebooks'))
 	print(os.getcwd())
 except:
 	pass
@@ -219,7 +219,7 @@ get_ipython().run_line_magic('sql', '$conn_string')
 # # STEP5: Clean up your resources
 #%% [markdown]
 # <b><font color='red'>DO NOT RUN THIS UNLESS YOU ARE SURE <br/> 
-#     We will be using these resources in the next exercises</span></b>
+#     We will be using these resources in the next notebooks</span></b>
 
 #%%
 #### CAREFUL!!
