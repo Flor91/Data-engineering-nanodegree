@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"jira-plugin.workingProject": "",
+		"python.condaPath": "/home/f.silvestre/anaconda3/envs/dend/bin/python"
+	}
+}
