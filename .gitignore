@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 *.cfg
+.idea/
+.vscode/
+credentials.csv
 
 # Distribution / packaging
 .Python
