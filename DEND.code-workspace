@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "3_dend_spark_data_lakes/P4_Data_Lake"
 		}
 	],
 	"settings": {
