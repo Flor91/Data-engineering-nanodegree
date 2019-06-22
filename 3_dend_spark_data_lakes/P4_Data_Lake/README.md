@@ -32,8 +32,6 @@ The files found at this project are the following:
 - dl.cfg: *not uploaded to github - you need to create this file yourself* File with AWS credentials.
 - etl.py: Program that extracts songs and log data from S3, transforms it using Spark, and loads the dimensional tables created in parquet format back to S3.
 - README.md: Current file, contains detailed information about the project.
-- analytics.py: Contains queries to the dimensional tables to validate correct data pipeline flow.
-- sparkify_notebook.ipynb: Jupyter Notebook created on EMR cluster where program was run, and extracted for review. 
 
 ## ETL pipeline
 
@@ -47,7 +45,6 @@ The files found at this project are the following:
 3. Process data using spark
 
     Transforms them to create five different tables listed under `Dimension Tables and Fact Table`.
-    
     Each table includes the right columns and data types. Duplicates are addressed where appropriate.
 
 4. Load it back to S3
