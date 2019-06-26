@@ -52,3 +52,10 @@ hello_world_task >> subtraction_task
 
 subtraction_task >> division_task
 addition_task >> division_task
+
+
+#                    ->  addition_task
+#                   /                 \
+#   hello_world_task                   -> division_task
+#                   \                 /
+#                    ->subtraction_task

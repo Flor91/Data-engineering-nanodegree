@@ -1,5 +1,7 @@
 # Instructions
-# Similar to what you saw in the demo, copy and populate the trips table. Then, add another operator which creates a traffic analysis table from the trips table you created. Note, in this class, we won’t be writing SQL -- all of the SQL statements we run against Redshift are predefined and included in your lesson.
+# Similar to what you saw in the demo, copy and populate the trips table. 
+# Then, add another operator which creates a traffic analysis table from the trips table you created. 
+# Note, in this class, we won’t be writing SQL -- all of the SQL statements we run against Redshift are predefined and included in your lesson.
 
 import datetime
 import logging
@@ -21,7 +23,7 @@ def load_data_to_redshift(*args, **kwargs):
 
 
 dag = DAG(
-    'lesson1.exercise6',
+    'lesson1.solution6',
     start_date=datetime.datetime.now()
 )
 
