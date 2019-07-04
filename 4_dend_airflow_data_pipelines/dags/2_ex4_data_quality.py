@@ -1,7 +1,7 @@
-#Instructions
-#1 - Set an SLA on our bikeshare traffic calculation operator
-#2 - Add data verification step after the load step from s3 to redshift
-#3 - Add data verification step after we calculate our output table
+# Instructions
+# 1 - Set an SLA on our bikeshare traffic calculation operator
+# 2 - Add data verification step after the load step from s3 to redshift
+# 3 - Add data verification step after we calculate our output table
 
 import datetime
 import logging
