@@ -3,7 +3,8 @@ import os
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
-                                LoadDimensionOperator, DataQualityOperator)
+                                LoadDimensionOperator, DataQualityOperator,
+                               CreateTablesOperator)
 from helpers import SqlQueries
 
 # AWS_KEY = os.environ.get('AWS_KEY')
@@ -29,7 +30,11 @@ dag = DAG('sparkify_dend_dag',
 
 start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
 
-#TODO: Add task to create tables
+create_redshift_tables = CreateTablesOperator(
+    task_id='Create_tables',
+    dag=dag,
+    redshift_conn_id="redshift"
+)
 
 stage_events_to_redshift = StageToRedshiftOperator(
     task_id='Stage_events',
@@ -110,10 +115,12 @@ end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
 
 # Setting tasks dependencies
 
-start_operator >> [stage_events_to_redshift, stage_songs_to_redshift] >> load_songplays_table
+start_operator >> create_redshift_tables >> [stage_songs_to_redshift, stage_events_to_redshift]
 
-load_songplays_table >> [load_user_dimension_table, load_song_dimension_table,
-                         load_artist_dimension_table, load_time_dimension_table] >> run_quality_checks
+[stage_events_to_redshift, stage_songs_to_redshift] >> load_songplays_table
+
+load_songplays_table >> [load_user_dimension_table, load_song_dimension_table, load_artist_dimension_table,
+                           load_time_dimension_table] >> run_quality_checks
 
 run_quality_checks >> end_operator
 
