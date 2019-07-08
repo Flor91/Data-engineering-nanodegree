@@ -1,6 +1,18 @@
 class SqlQueries:
 
     songplay_table_insert = ("""
+        INSERT INTO {} (
+            songplay_id,
+            start_time,
+            userid,
+            level,
+            song_id,
+            artist_id,
+            sessionid,
+            location,
+            useragent,
+            start_time
+        )
         SELECT
                 md5(events.sessionid || events.start_time) songplay_id,
                 events.start_time, 
@@ -21,22 +33,52 @@ class SqlQueries:
     """)
 
     user_table_insert = ("""
+        INSERT INTO {} (
+            userid,
+            firstname,
+            lastname,
+            gender,
+            level
+        )
         SELECT distinct userid, firstname, lastname, gender, level
         FROM staging_events
         WHERE page='NextSong'
     """)
 
     song_table_insert = ("""
+        INSERT INTO {} (
+            song_id,
+            title,
+            artist_id,
+            year,
+            duration
+        )
         SELECT distinct song_id, title, artist_id, year, duration
         FROM staging_songs
     """)
 
     artist_table_insert = ("""
+        INSERT INTO {} (
+            artist_id,
+            artist_name,
+            artist_location,
+            artist_latitude,
+            artist_longitude    
+        )
         SELECT distinct artist_id, artist_name, artist_location, artist_latitude, artist_longitude
         FROM staging_songs
     """)
 
     time_table_insert = ("""
+        INSERT INTO {} (
+            start_time,
+            hour,
+            day,
+            week,
+            month,
+            year,
+            weekday
+        )
         SELECT start_time, extract(hour from start_time), extract(day from start_time), extract(week from start_time), 
                extract(month from start_time), extract(year from start_time), extract(dayofweek from start_time)
         FROM songplays

@@ -14,6 +14,8 @@ class StageToRedshiftOperator(BaseOperator):
             SECRET_ACCESS_KEY '{}'
             IGNOREHEADER {}
             DELIMITER '{}'
+            TIMEFORMAT as 'epochmillisecs'
+            TRUNCATECOLUMNS BLANKSASNULL EMPTYASNULL
         """
 
     @apply_defaults
@@ -23,8 +25,7 @@ class StageToRedshiftOperator(BaseOperator):
                  table="",
                  s3_bucket="",
                  s3_key="",
-                 delimiter=",",
-                 ignore_headers=1,
+                 file_format="JSON",
                  *args, **kwargs):
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
@@ -32,11 +33,19 @@ class StageToRedshiftOperator(BaseOperator):
         self.redshift_conn_id = redshift_conn_id
         self.s3_bucket = s3_bucket
         self.s3_key = s3_key
-        self.delimiter = delimiter
-        self.ignore_headers = ignore_headers
+        self.file_format = file_format
         self.aws_credentials_id = aws_credentials_id
 
     def execute(self, context):
+        """
+            Copy data from S3 buckets to redshift cluster into staging tables.
+                - redshift_conn_id: redshift cluster connection
+                - aws_credentials_id: AWS connection
+                - table: redshift cluster table name
+                - s3_bucket: S3 bucket name holding source data
+                - s3_key: S3 key files of source data
+                - file_format: source file format - options JSON, CSV
+        """
         aws_hook = AwsHook(self.aws_credentials_id)
         credentials = aws_hook.get_credentials()
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
