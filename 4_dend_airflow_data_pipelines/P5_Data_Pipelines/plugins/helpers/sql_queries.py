@@ -1,7 +1,7 @@
 class SqlQueries:
 
     songplay_table_insert = ("""
-        INSERT INTO {} (
+        INSERT INTO songplays (
             songplay_id,
             start_time,
             userid,
@@ -33,7 +33,7 @@ class SqlQueries:
     """)
 
     user_table_insert = ("""
-        INSERT INTO {} (
+        INSERT INTO users (
             userid,
             firstname,
             lastname,
@@ -46,7 +46,7 @@ class SqlQueries:
     """)
 
     song_table_insert = ("""
-        INSERT INTO {} (
+        INSERT INTO songs (
             song_id,
             title,
             artist_id,
@@ -58,7 +58,7 @@ class SqlQueries:
     """)
 
     artist_table_insert = ("""
-        INSERT INTO {} (
+        INSERT INTO artists (
             artist_id,
             artist_name,
             artist_location,
@@ -70,7 +70,7 @@ class SqlQueries:
     """)
 
     time_table_insert = ("""
-        INSERT INTO {} (
+        INSERT INTO time (
             start_time,
             hour,
             day,

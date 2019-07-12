@@ -10,6 +10,8 @@ def load_dimensional_tables_dag(
         task_id,
         redshift_conn_id,
         aws_credentials_id,
+        table,
+        sql_query,
         *args, **kwargs):
     dag = DAG(
         f"{parent_dag_name}.{task_id}",
@@ -25,7 +27,7 @@ def load_dimensional_tables_dag(
         table=table,
         redshift_conn_id=redshift_conn_id,
         aws_credentials_id=aws_credentials_id,
-        sql_query=sql_stmt
+        sql_query=sql_query
     )
 
     load_dimension_table

@@ -9,14 +9,25 @@ class LoadDimensionOperator(BaseOperator):
 
     @apply_defaults
     def __init__(self,
-                 aws_credentials_id="",
                  redshift_conn_id="",
                  sql_query="",
+                 table="",
+                 truncate="",
                  *args, **kwargs):
         super(LoadDimensionOperator, self).__init__(*args, **kwargs)
-        self.aws_credentials_id = aws_credentials_id,
-        self.redshift_conn_id = redshift_conn_id,
-        self.sql_query = sql_query,
+        self.redshift_conn_id = redshift_conn_id
+        self.sql_query = sql_query
+        self.table = table
+        self.truncate = truncate
 
     def execute(self, context):
-        self.log.info('LoadDimensionOperator not implemented yet')
+        """
+          Insert data into dimensional tables from staging events and song data.
+          Using a truncate-insert method to empty target tables prior to load.
+        """
+        redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
+        if self.truncate:
+            redshift.run(f"TRUNCATE TABLE {self.table}")
+        formatted_sql = self.sql_query.format(self.table)
+        redshift.run(formatted_sql)
+        self.log.info(f"Success: {self.task_id}")
